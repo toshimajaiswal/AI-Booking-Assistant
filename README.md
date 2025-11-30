@@ -73,3 +73,149 @@ Tables:
 
 ## 🏛️ Architecture Overview
 
+User → Streamlit UI → FastAPI Backend
+→ (RAG Pipeline: PDF → PyPDF2 → Chunk → Embedding → FAISS)
+→ Groq LLM (openai/gpt-oss-20b)
+→ Booking Engine → SQLite → SMTP Email → Streamlit Output
+
+
+**Frontend:** Streamlit  
+**Backend:** FastAPI + Uvicorn  
+**LLM:** Groq (openai/gpt-oss-20b)  
+**Embeddings:** SentenceTransformers  
+**Vector DB:** FAISS  
+**DB:** SQLite  
+**Email:** SMTP  
+
+---
+
+## 🗂️ Project Structure
+backend/
+- app/
+  - main.py
+  - schemas.py
+- routers/
+  - chat.py
+  - upload.py
+  - bookings.py
+services/
+  - llm_client.py
+  - rag_pipeline.py
+  - booking_manager.py
+  - email_service.py
+db/
+  - database.py
+  - models.py
+  - requirements.txt
+
+frontend/
+  - streamlit_app.py
+  - ui.py
+
+ .env (not committed)
+ README.md
+
+
+---
+
+## ⚙️ Installation & Setup
+
+### 1️⃣ Clone the Repository
+```bash
+git clone https://github.com/<your-username>/<repo-name>.git
+cd <repo-name>
+```
+
+2️⃣ Create Virtual Environment
+```bash
+python3 -m venv myenv
+source myenv/bin/activate
+```
+
+3️⃣ Install Backend Requirements
+```bash
+pip install -r backend/requirements.txt
+```
+
+4️⃣ Add Environment Variables
+
+Create a .env file:
+```
+# Groq API
+GROQ_API_KEY=your_api_key_here
+GROQ_MODEL="openai/gpt-oss-20b"
+
+# Embeddings
+EMBEDDING_MODEL_NAME=all-MiniLM-L6-v2
+
+# FAISS paths
+FAISS_INDEX_PATH=rag_faiss.index
+FAISS_MAPPING_PATH=rag_faiss_mapping.pkl
+
+# SQLite
+SQLITE_PATH=bookings.db
+
+# Email
+SMTP_EMAIL=your_email@gmail.com
+SMTP_PASS=your_app_password
+SMTP_HOST=smtp.gmail.com
+SMTP_PORT=587
+
+# Uploads
+UPLOADS_DIR=backend/uploads
+```
+▶️ Running the Application
+Start Backend (FastAPI)
+```
+cd backend
+uvicorn app.main:app --reload --port 8000
+```
+
+Start Frontend (Streamlit)
+```
+cd ..
+streamlit run frontend/streamlit_app.py
+```
+Now visit:
+
+http://localhost:8501
+
+API Endpoints Overview
+Chat
+```
+POST /api/chat/message
+```
+Upload PDF
+```
+POST /api/upload/pdf
+```
+Bookings
+```
+POST /api/bookings
+GET /api/bookings
+```
+Admin
+```
+POST /api/chat/reset-memory
+POST /api/chat/delete-chunk/{id}
+```
+
+🧠 RAG Flow (Summary)
+
+- User uploads PDF
+
+- PyPDF2 → Extract text
+
+- Chunking
+
+- Embedding → SentenceTransformers
+
+- Store vectors → FAISS
+
+- Query embedding → FAISS search
+
+- Retrieve relevant chunks
+
+- Build prompt
+
+- Generate answer via Groq LLM
