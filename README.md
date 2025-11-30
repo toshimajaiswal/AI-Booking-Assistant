@@ -1,4 +1,4 @@
-# 🤖 AI-Powered Meeting Room Booking Assistant  
+#  AI-Powered Meeting Room Booking Assistant  
 ### Built with FastAPI • Streamlit • RAG • FAISS • SentenceTransformers • Groq LLM (`openai/gpt-oss-20b`)
 
 This project is an **AI-driven corporate meeting room booking assistant** that enables users to interact using natural language, book meeting rooms, check availability, and retrieve information from uploaded documents using a **RAG pipeline** (Retrieval-Augmented Generation).
@@ -15,31 +15,31 @@ It combines:
 
 ---
 
-## 🚀 Features
+##  Features
 
-### 🔹 1. Chat-based AI Assistant (Streamlit UI)
+###  1. Chat-based AI Assistant (Streamlit UI)
 - Natural conversation with the AI assistant  
 - Handles general queries and booking-related tasks  
 - Maintains conversation memory  
 - Clean, friendly chat interface  
 
-### 🔹 2. FastAPI Backend
+###  2. FastAPI Backend
 - Handles chat, uploads, bookings, vector store ops  
 - Validates payloads (Pydantic)  
 - Provides REST endpoints for all major actions  
 
-### 🔹 3. RAG Pipeline (Retrieval-Augmented Generation)
+###  3. RAG Pipeline (Retrieval-Augmented Generation)
 - **PDF Upload → Text extraction (PyPDF2) → Chunking → Embeddings → FAISS**  
 - Embedding model: **SentenceTransformers — `all-MiniLM-L6-v2`**  
 - Vector DB: **FAISS (IndexFlatIP)** for similarity search  
 - Query embeddings + top-k chunk retrieval  
 
-### 🔹 4. LLM Generation (Groq)
+###  4. LLM Generation (Groq)
 Uses **Groq API** with model:  
 `openai/gpt-oss-20b`  
 Fast, low-latency, and optimized for production.
 
-### 🔹 5. Slot-Filling Multi-Turn Booking Flow
+###  5. Slot-Filling Multi-Turn Booking Flow
 Collects these booking fields:
 - Name  
 - Email  
@@ -51,18 +51,18 @@ Collects these booking fields:
 
 Validates → Summarizes → Confirms → Saves → Emails user  
 
-### 🔹 6. SQLite Database + SQLAlchemy ORM
+###  6. SQLite Database + SQLAlchemy ORM
 Tables:
 - `customers`  
 - `bookings`  
 - `chunks` (for RAG metadata)
 
-### 🔹 7. Email Notification (SMTP)
+###  7. Email Notification (SMTP)
 - Sends booking confirmation emails  
 - Gracefully handles failures  
 - Uses Gmail / App Password  
 
-### 🔹 8. Admin Dashboard (Streamlit)
+###  8. Admin Dashboard (Streamlit)
 - View all bookings  
 - Filter/search by name/email/date  
 - View occupancy  
@@ -71,7 +71,7 @@ Tables:
 
 ---
 
-## 🏛️ Architecture Overview
+##  Architecture Overview
 
 User → Streamlit UI → FastAPI Backend
 → (RAG Pipeline: PDF → PyPDF2 → Chunk → Embedding → FAISS)
@@ -120,24 +120,24 @@ frontend/
 
 ## ⚙️ Installation & Setup
 
-### 1️⃣ Clone the Repository
+### 1️. Clone the Repository
 ```bash
-git clone https://github.com/<your-username>/<repo-name>.git
-cd <repo-name>
+git clone https://github.com/toshimajaiswal/AI-Booking-Assistant
+
 ```
 
-2️⃣ Create Virtual Environment
+2️. Create Virtual Environment
 ```bash
 python3 -m venv myenv
 source myenv/bin/activate
 ```
 
-3️⃣ Install Backend Requirements
+3️. Install Backend Requirements
 ```bash
 pip install -r backend/requirements.txt
 ```
 
-4️⃣ Add Environment Variables
+4️. Add Environment Variables
 
 Create a .env file:
 ```
@@ -164,43 +164,22 @@ SMTP_PORT=587
 # Uploads
 UPLOADS_DIR=backend/uploads
 ```
-▶️ Running the Application
+ Running the Application
 Start Backend (FastAPI)
 ```
-cd backend
 uvicorn app.main:app --reload --port 8000
 ```
 
 Start Frontend (Streamlit)
 ```
-cd ..
 streamlit run frontend/streamlit_app.py
 ```
 Now visit:
 
 http://localhost:8501
 
-API Endpoints Overview
-Chat
-```
-POST /api/chat/message
-```
-Upload PDF
-```
-POST /api/upload/pdf
-```
-Bookings
-```
-POST /api/bookings
-GET /api/bookings
-```
-Admin
-```
-POST /api/chat/reset-memory
-POST /api/chat/delete-chunk/{id}
-```
 
-🧠 RAG Flow (Summary)
+RAG Flow (Summary)
 
 - User uploads PDF
 
