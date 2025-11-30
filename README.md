@@ -89,7 +89,7 @@ User → Streamlit UI → FastAPI Backend
 
 ---
 
-## 🗂️ Project Structure
+##  Project Structure
 backend/
 - app/
   - main.py
@@ -118,7 +118,7 @@ frontend/
 
 ---
 
-## ⚙️ Installation & Setup
+##  Installation & Setup
 
 ### 1️. Clone the Repository
 ```bash
@@ -139,33 +139,83 @@ pip install -r backend/requirements.txt
 
 4️. Add Environment Variables
 
-Create a .env file:
-```
-# Groq API
-GROQ_API_KEY=your_api_key_here
-GROQ_MODEL="openai/gpt-oss-20b"
+## 🔐 Environment Variables (.env)
 
-# Embeddings
-EMBEDDING_MODEL_NAME=all-MiniLM-L6-v2
+Create a `.env` file in the project root with the following configuration:
 
-# FAISS paths
-FAISS_INDEX_PATH=rag_faiss.index
-FAISS_MAPPING_PATH=rag_faiss_mapping.pkl
+```env
+# =====================================================
+# DATABASE CONFIGURATION
+# =====================================================
 
-# SQLite
+# SQLite database for bookings & customers
 SQLITE_PATH=bookings.db
 
-# Email
-SMTP_EMAIL=your_email@gmail.com
-SMTP_PASS=your_app_password
+# Optional separate SQLite for chunk storage
+RAG_DB_PATH=rag_store.db
+
+
+# =====================================================
+# VECTOR DATABASE (FAISS)
+# =====================================================
+
+# FAISS index binary file path
+FAISS_INDEX_PATH=rag_faiss.index
+
+# Mapping file (FAISS index ID → Chunk UUID)
+FAISS_MAPPING_PATH=rag_faiss_mapping.pkl
+
+# Embedding model name (SentenceTransformers)
+EMBEDDING_MODEL_NAME=all-MiniLM-L6-v2
+
+
+# =====================================================
+# GROQ LLM CONFIGURATION
+# =====================================================
+
+# Your Groq API Key
+GROQ_API_KEY=your_groq_api_key_here
+
+# Default Groq model
+GROQ_MODEL=openai/gpt-oss-20b
+
+
+# =====================================================
+# FRONTEND ↔ BACKEND CONFIGURATION
+# =====================================================
+
+# FastAPI backend URL for Streamlit UI
+API_BASE=http://localhost:8000/api
+
+# Streamlit port (default)
+STREAMLIT_PORT=8501
+
+
+# =====================================================
+# EMAIL (SMTP) CONFIGURATION – OPTIONAL
+# =====================================================
+
 SMTP_HOST=smtp.gmail.com
 SMTP_PORT=587
 
-# Uploads
+# Replace with your Gmail + App Password
+SMTP_USER=your_email@gmail.com
+SMTP_PASS=your_app_password
+
+
+# =====================================================
+# OPTIONAL ADDITIONAL KEYS FOR FUTURE EXTENSIONS
+# =====================================================
+
+ENVIRONMENT=local
+
+# Directory for uploaded PDFs
 UPLOADS_DIR=backend/uploads
 ```
+
  Running the Application
 Start Backend (FastAPI)
+
 ```
 uvicorn app.main:app --reload --port 8000
 ```
